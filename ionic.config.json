@@ -1,0 +1,7 @@
+{
+  "name": "Aplicacion_Movil_de_Emergencia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
