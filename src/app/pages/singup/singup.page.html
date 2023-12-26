@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Welcome !</h1>
+      <p class="sub-title">Sing up to create your account</p>
+    </div>
+
+    <form [formGroup]="singUpForm">
+      <div class="ion-padding">
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-input formControlName="email" placeholder="email"></ion-input>
+        </ion-item>
+        <div *ngIf="singUpForm.get('email')?.hasError('required') && singUpForm.get('email')?.touched"
+          style="padding-top: -26px; padding-bottom: 16px">
+          <ion-text color="danger">email is requiered</ion-text>
+        </div>
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input formControlName="password" placeholder="password"></ion-input>
+        </ion-item>
+        <div *ngIf="singUpForm.get('email')?.hasError('required') && singUpForm.get('email')?.touched"
+          style="padding-top: -26px; padding-bottom: 16px">
+          <ion-text color="danger">password is requiered</ion-text>
+        </div>
+        <div id="containerLogin">
+          <p>
+            You have an account ?
+            <ion-label color="primary" [routerLink]="['/login']">
+              Sing in
+            </ion-label>
+          </p>
+        </div>
+
+        <ion-fab horizontal="center">
+          <ion-button (click)="singUp()" [disabled]="!singUpForm.valid">
+            Register
+          </ion-button>
+        </ion-fab>
+      </div>
+    </form>
+  </div>
+</ion-content>

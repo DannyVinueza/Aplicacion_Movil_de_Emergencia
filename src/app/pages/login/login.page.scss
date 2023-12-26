@@ -1,0 +1,70 @@
+ion-content {
+    --background: url(https://us.123rf.com/450wm/keath/keath1604/keath160400025/55218985-los-servicios-m%C3%A9dicos-de-emergencia-concepto-ilustraci%C3%B3n-vectorial-icono-de-rescate.jpg?ver=6) no-repeat center center/cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+
+    .container {
+        width: calc(100% - 100px);
+        margin: 50px auto;
+        padding: 20px;
+        backdrop-filter: blur(5px);
+    }
+
+    .header {
+        text-align: center;
+        padding-top: 30%;
+
+        .title {
+            font-size: 28px;
+            color: #000000;
+        }
+
+        .sub-title {
+            color: #2f2f2f;
+        }
+    }
+
+    form {
+        width: 100%;
+        margin: 20px auto;
+        color: #d4d4d4;
+
+        .ion-padding {
+            ion-item {
+                background-color: #fff;
+                border-radius: 10px;
+                margin-bottom: 10px;
+
+                ion-input {
+                    margin-left: 3px;
+                    width: 100%;
+                }
+
+                ion-icon {
+                    margin-right: 3px;
+                }
+            }
+
+            #containerSingup {
+                text-align: center;
+                padding-top: 20px;
+
+                p {
+                    color: #000000;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        ion-fab {
+
+            ion-button {
+                --border-radius: 10px;
+            }
+        }
+    }
+}
