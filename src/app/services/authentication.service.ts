@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
-import { BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+
 import { ApiService } from './api.service';
 import { getAuth } from 'firebase/auth';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  public _uid = new BehaviorSubject<any>(null);
+  private _uid = new BehaviorSubject<string | null>(null);
   currentUser: any;
 
   constructor(
     private ngFireAuth: AngularFireAuth,
     private apiService: ApiService
   ) { }
-
-
 
   async login(email: string, password: string): Promise<any> {
     try {
@@ -32,11 +30,15 @@ export class AuthenticationService {
     }
   }
 
-  getId() {
-    const auth = getAuth();
-    this.currentUser = auth.currentUser;
-    console.log(this.currentUser);
-    return this.currentUser?.uid;
+  getId(): Observable<string | null> {
+    return new Observable<string | null>((observer) => {
+      const auth = getAuth();
+      this.currentUser = auth.currentUser;
+      const uid = this.currentUser?.uid;
+      // console.log('Usuario actual en AuthenticationService:', this.currentUser);
+      observer.next(uid);
+      observer.complete();
+    });
   }
 
   setUserData(uid: any) {
@@ -51,19 +53,14 @@ export class AuthenticationService {
     try {
       const register = await this.ngFireAuth.createUserWithEmailAndPassword(email, password);
       console.log(register);
-      const data = {
-        email: email,
-        password: password,
-        uid: register.user?.uid,
-        photo: 'https://i.pravatar.cc/' + this.randomFromInterval(200, 400)
-      }
-      await this.apiService.setDocument(`users/${register.user?.uid}`, data);
+  
       const userData = {
         id: register.user?.uid,
-      }
+      };
+  
       return userData;
     } catch (error) {
-      throw (error)
+      throw (error);
     }
   }
 
@@ -71,28 +68,27 @@ export class AuthenticationService {
     try {
       await this.ngFireAuth.signOut();
       this._uid.next(null);
-      return true
+      return true;
     } catch (error) {
-      throw (error)
+      throw (error);
     }
   }
 
   checkAuth(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.ngFireAuth.onAuthStateChanged(user => {
-        console.log("user auth: ", user);
+        //console.log("user auth: ", user);
         resolve(user);
-      })
-    })
+      });
+    });
   }
 
   async getUserData(id: any) {
     const docSnap: any = await this.apiService.getDocById(`users/${id}`);
-    if (docSnap?.exits()) {
+    if (docSnap?.exists()) {
       return docSnap.data();
     } else {
-      throw ("No such document exists")
+      throw ("No such document exists");
     }
   }
 }
-

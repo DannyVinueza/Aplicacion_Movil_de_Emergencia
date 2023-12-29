@@ -8,17 +8,26 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'loader',
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    path: 'loader',
+    loadChildren: () => import('./pages/loader/loader.module').then( m => m.LoaderPageModule)
   },
   {
     path: 'singup',
     loadChildren: () => import('./pages/singup/singup.module').then(m => m.SingupPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },  {
+    path: 'photo',
+    loadChildren: () => import('./pages/photo/photo.module').then( m => m.PhotoPageModule)
+  },
+
+
 ];
 
 @NgModule({

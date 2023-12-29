@@ -1,0 +1,28 @@
+ion-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+ion-img {
+    width: 50%;
+    /* Ajusta el ancho de la imagen según tus necesidades */
+    max-width: 200px;
+    /* Establece un ancho máximo si lo deseas */
+    align-self: center;
+}
+
+ion-spinner {
+    margin-top: 20px;
+    /* Ajusta la separación entre la imagen y el círculo */
+}
