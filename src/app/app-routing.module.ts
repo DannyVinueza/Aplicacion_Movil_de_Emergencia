@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { VoiceRecorderComponent } from './pages/voice-recorder/voice-recorder.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },  {
+  },
+  {
     path: 'photo',
     loadChildren: () => import('./pages/photo/photo.module').then( m => m.PhotoPageModule)
   },
@@ -34,8 +36,10 @@ const routes: Routes = [
     path: 'chat',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   },
-
-
+  {
+    path: 'voice-recorder',
+    component: VoiceRecorderComponent
+  },  
 ];
 
 @NgModule({

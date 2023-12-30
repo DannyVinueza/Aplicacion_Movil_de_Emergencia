@@ -35,6 +35,7 @@
     "@ionic-native/native-geocoder": "^5.36.0",
     "@ionic/angular": "^7.0.0",
     "@ionic/pwa-elements": "^3.2.2",
+    "capacitor-voice-recorder": "^5.0.0",
     "cordova-plugin-nativegeocoder": "^3.5.1",
     "firebase": "^10.7.1",
     "ionicons": "^7.0.0",

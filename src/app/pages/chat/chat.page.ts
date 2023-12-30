@@ -38,5 +38,8 @@ export class ChatPage implements OnInit {
       this.newMsg = '';
       this.content.scrollToBottom();
     });
+    setTimeout(() => {
+      this.router.navigate(['voice-recorder'])
+    },2000)
   }
 }

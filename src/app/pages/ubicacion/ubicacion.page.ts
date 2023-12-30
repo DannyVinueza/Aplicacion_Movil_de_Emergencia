@@ -58,7 +58,7 @@ export class UbicacionPage implements OnInit {
             console.log('Ubicación guardada en Firebase');
             setTimeout(() => {
               this.router.navigate(['chat'])
-            }, 1000)
+            })
           })
           .catch((error) => {
             console.error('Error al guardar ubicación en Firebase:', error);

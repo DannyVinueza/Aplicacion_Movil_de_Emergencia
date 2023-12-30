@@ -25,7 +25,7 @@ export class PhotoService {
 
     const user = this.authService.currentUser;
     if (user) {
-      const photoPath = `users/${user.uid}/${new Date().getTime()}.jpg`;
+      const photoPath = `img/${user.uid}/${new Date().getTime()}.jpg`;
       await this.uploadPhoto(capturedPhoto.webPath!, photoPath);
       this.photos.unshift({
         filepath: photoPath,

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -15,10 +15,11 @@ import { AngularFireModule } from '@angular/fire/compat';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
-//import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { VoiceRecorderComponent } from './pages/voice-recorder/voice-recorder.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, VoiceRecorderComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -33,7 +34,6 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
     }),
     provideFirestore(() => getFirestore())
   ],
-  //providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   providers: [
     Geolocation,
     NativeGeocoder,
@@ -42,7 +42,6 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
       useClass: IonicRouteStrategy
     }
   ],
-
   bootstrap: [AppComponent]
 })
 export class AppModule { }

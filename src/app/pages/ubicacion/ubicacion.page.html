@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Ubicación</ion-title>
   </ion-toolbar>
@@ -6,7 +6,7 @@
 
 <ion-content>
   <div class="ion-padding">
-    <ion-button (click)="getCurrentCoordinates()" expand="block">
+    <ion-button expand="block" fill="clear" color="primary" class="msg-btn" (click)="getCurrentCoordinates()" expand="block">
       Obtener Ubicación
     </ion-button>
     <ion-list>
