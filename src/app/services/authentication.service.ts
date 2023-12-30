@@ -30,16 +30,18 @@ export class AuthenticationService {
     }
   }
 
-  getId(): Observable<string | null> {
-    return new Observable<string | null>((observer) => {
+  getId(): Observable<{ uid: string | null, email: string | null }> {
+    return new Observable<{ uid: string | null, email: string | null }>((observer) => {
       const auth = getAuth();
       this.currentUser = auth.currentUser;
-      const uid = this.currentUser?.uid;
+      const uid = this.currentUser?.uid || null;
+      const email = this.currentUser?.email || null;
       // console.log('Usuario actual en AuthenticationService:', this.currentUser);
-      observer.next(uid);
+      observer.next({ uid, email });
       observer.complete();
     });
   }
+  
 
   setUserData(uid: any) {
     this._uid.next(uid);

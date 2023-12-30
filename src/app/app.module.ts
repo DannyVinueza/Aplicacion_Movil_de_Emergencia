@@ -13,6 +13,10 @@ import { provideFirestore } from '@angular/fire/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+//import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
@@ -29,7 +33,14 @@ import { AngularFireModule } from '@angular/fire/compat';
     }),
     provideFirestore(() => getFirestore())
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  //providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    Geolocation,
+    NativeGeocoder,
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy
+    }
   ],
 
   bootstrap: [AppComponent]

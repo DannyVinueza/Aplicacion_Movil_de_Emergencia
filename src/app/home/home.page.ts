@@ -15,10 +15,8 @@ export class HomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.getId().subscribe((uid: string | null) => {
-      if (uid) {
-        console.log('Usuario actual en /photo:', uid);
-      } else {
+    this.authService.getId().subscribe((user: { uid: string | null, email: string | null }) => {
+      if (!user || !user.uid) {
         console.error('Usuario no autenticado. No se puede obtener el ID');
         this.router.navigate(['loader'])
       }

@@ -26,6 +26,14 @@ const routes: Routes = [
     path: 'photo',
     loadChildren: () => import('./pages/photo/photo.module').then( m => m.PhotoPageModule)
   },
+  {
+    path: 'ubicacion',
+    loadChildren: () => import('./pages/ubicacion/ubicacion.module').then( m => m.UbicacionPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
 
 
 ];
