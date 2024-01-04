@@ -39,7 +39,12 @@ const routes: Routes = [
   {
     path: 'voice-recorder',
     component: VoiceRecorderComponent
-  },  
+  },   
+  {
+    path: 'video-recorder',
+    loadChildren: () => import('./pages/video-recorder/video-recorder.module').then( m => m.VideoRecorderPageModule)
+  },
+ 
 ];
 
 @NgModule({

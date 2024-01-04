@@ -65,9 +65,9 @@ export class VoiceRecorderComponent implements OnInit {
               })
             ).subscribe();
         });
-        // setTimeout(() => {
-        //   this.router.navigate(['...'])
-        // })
+        setTimeout(() => {
+          this.router.navigate(['video-recorder'])
+        })
 
       }else{
         console.error('Usuario no autenticado. No se puede obtener el ID');
