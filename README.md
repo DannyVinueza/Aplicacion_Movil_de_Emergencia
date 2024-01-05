@@ -17,3 +17,21 @@
 # Proyecto de Aplicaiones Moviles
 - Dilan Flores
 - Dany Vinueza
+
+# Link del hsoting
+https://chat2023-8664a.web.app/
+
+# Pasos para iniciar con la aplicacion
+- Primero se debe de clonar el repositorio
+- Segundo ejecutar el comando npm i -f, se instalara todas las dependencias necesarias
+- Tercero ejecutar el comando ionic serve, ya se ejecutara el proyecto
+
+# Pasos para generar el apk
+- Ejecutar los siguientes comandos en el orden indicado:
+    ionic build
+    ionic capacitor add android
+    ionic capacitor copy android
+    ionic capacitor build android -pror
+
+Si da algun error de que no esta instalado capacitor se ejecuta el sigueinte comando:
+    npm install @capacitor/android -f
