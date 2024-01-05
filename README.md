@@ -13,13 +13,15 @@
 
 
 
-
 # Proyecto de Aplicaiones Moviles
 - Dilan Flores
 - Dany Vinueza
 
 # Link del hsoting
 https://chat2023-8664a.web.app/
+
+# Manual de usuario
+https://youtu.be/0jo7rHUncrg?si=rda5siXJz2UPkBlb
 
 # Pasos para iniciar con la aplicacion
 - Primero se debe de clonar el repositorio
