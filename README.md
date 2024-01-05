@@ -27,11 +27,11 @@ https://chat2023-8664a.web.app/
 - Tercero ejecutar el comando ionic serve, ya se ejecutara el proyecto
 
 # Pasos para generar el apk
-- Ejecutar los siguientes comandos en el orden indicado:
-    ionic build
-    ionic capacitor add android
-    ionic capacitor copy android
-    ionic capacitor build android -pror
+Ejecutar los siguientes comandos en el orden indicado:
+- ionic build
+- ionic capacitor add android
+- ionic capacitor copy android
+- ionic capacitor build android -pror
 
 Si da algun error de que no esta instalado capacitor se ejecuta el sigueinte comando:
-    npm install @capacitor/android -f
+- npm install @capacitor/android -f
