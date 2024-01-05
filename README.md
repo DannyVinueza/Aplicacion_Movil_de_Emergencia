@@ -20,7 +20,7 @@
 # Link del hsoting
 https://chat2023-8664a.web.app/
 
-# Manual de usuario
+# Manual de usuario y retos encontrado
 https://youtu.be/0jo7rHUncrg?si=rda5siXJz2UPkBlb
 
 # Pasos para iniciar con la aplicacion
