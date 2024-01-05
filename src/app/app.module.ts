@@ -17,8 +17,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { VoiceRecorderComponent } from './pages/voice-recorder/voice-recorder.component';
 
+import {NewEmergencyAlertComponent} from '../app/pages/new-emergency-alert/new-emergency-alert.component'
+
 @NgModule({
-  declarations: [AppComponent, VoiceRecorderComponent],
+  declarations: [AppComponent, VoiceRecorderComponent, NewEmergencyAlertComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),

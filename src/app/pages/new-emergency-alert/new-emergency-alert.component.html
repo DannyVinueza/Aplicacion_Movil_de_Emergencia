@@ -1,0 +1,39 @@
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon (click)="dismissModal()" name="close-circle" class="normal-icon"></ion-icon>
+    </ion-buttons>
+    <ion-title class="custom-title">¡Nueva Emergencia!</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="custom-content">
+  <p><strong class="custom-strong">Usuario:</strong> {{ emergencyData.userName }} ha dicho: {{emergencyData.latestMessage.msg}}</p>
+  <div *ngIf="emergencyData">
+    <ion-card class="custom-card">
+      <ion-card-header>
+        <ion-card-title>Detalles de la Emergencia</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong class="custom-strong">Fecha y hora:</strong> {{ emergencyData.timestamp }}</p>
+        <p><strong class="custom-strong">Ubicación:</strong><a href="https://www.google.com/maps/search/?api=1&query={{emergencyData.latestLocation.latitude}},{{emergencyData.latestLocation.longitude}}" target="_blank">
+          Ver en Google Maps
+      </a></p>
+        <img *ngIf="emergencyData.latestImage" [src]="emergencyData.latestImage" alt="Imagen de la emergencia" class="custom-image">
+        <div *ngIf="emergencyData.latestVideo">
+          <strong class="custom-strong">Video de la Emergencia:</strong>
+          <video controls class="custom-video">
+            <source [src]="emergencyData.latestVideo" type="video/mp4">
+            Tu navegador no admite la etiqueta de video.
+          </video>
+        </div>
+        <div *ngIf="emergencyData.latestAudio">
+          <strong class="custom-strong">Audio de la Emergencia:</strong>
+          <audio controls class="custom-audio">
+            <source [src]="emergencyData.latestAudio" type="audio/mpeg">
+            Tu navegador no admite la etiqueta de audio.
+          </audio>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

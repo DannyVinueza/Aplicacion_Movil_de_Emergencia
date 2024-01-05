@@ -44,7 +44,6 @@ const routes: Routes = [
     path: 'video-recorder',
     loadChildren: () => import('./pages/video-recorder/video-recorder.module').then( m => m.VideoRecorderPageModule)
   },
- 
 ];
 
 @NgModule({

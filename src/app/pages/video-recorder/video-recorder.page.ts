@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@an
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { EmergencyService } from 'src/app/services/emergency.service';
+import firebase from 'firebase/compat/app';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-video-recorder',
@@ -18,11 +21,18 @@ export class VideoRecorderPage implements OnInit {
   videoStream!: MediaStream;
   videoUrl!: string;
   user: any;
+  latestVideo: any;
+  latestAudio: any;
+  latestImage: any;
+  latestMessage: any;
+  latestLocation: any;
 
   constructor(
+    private toastController: ToastController,
     private router: Router,
     private authService: AuthenticationService,
     private firestore: AngularFirestore,
+    private estorage: AngularFireStorage,
     private changeDetector: ChangeDetectorRef,
     private emergencyService: EmergencyService
   ) { }
@@ -64,12 +74,9 @@ export class VideoRecorderPage implements OnInit {
   }
 
   async startRecordingAfterCountdown() {
-    this.authService.getId().subscribe((user: { uid: string | null, email: string | null }) => {
+    this.authService.getId().subscribe(async (user: { uid: string | null, email: string | null }) => {
       this.recording = true;
-      console.log("Aqui01")
-      console.log(this.videoStream)
       const mediaRecorder = new MediaRecorder(this.videoStream);
-      console.log("Aqui1")
       const chunks: any[] = [];
       let recordingSeconds = 5;
 
@@ -99,14 +106,23 @@ export class VideoRecorderPage implements OnInit {
               // Detener la cámara después de la grabación del video
               const tracks = this.videoStream.getTracks();
               tracks.forEach((track) => track.stop());
+              
             },
             (error: any) => {
               console.error('Error al obtener la URL del video:', error);
             }
           );
+          const toast = await this.toastController.create({
+            message: 'Emergencia enviada exitosamente',
+            duration: 3000, // Duración de la notificación en milisegundos
+            position: 'bottom', // Posición de la notificación (opcional)
+          });
+          toast.present();
+          this.router.navigate(['/home']);
         } catch (error) {
           console.error('Error al subir el video:', error);
         }
+        await this.saveEmergencyData()
       };
       const countdownInterval = setInterval(() => {
         recordingSeconds--;
@@ -118,6 +134,128 @@ export class VideoRecorderPage implements OnInit {
         }
       }, 1000);
       this.changeDetector.detectChanges();
+      
     })
+  }
+
+  async saveEmergencyData() {
+    this.authService.getId().subscribe(async (user: { uid: string | null, email: string | null }) => {
+      if (user && user.uid && user.email) {
+        try {
+          this.latestVideo = await this.getLatestMedia(user.uid, 'videos');
+          this.latestAudio = await this.getLatestMedia(user.uid, 'audio');
+          this.latestImage = await this.getLatestMedia(user.uid, 'img');
+          this.latestMessage = await this.getLatestMessage(user.email);
+          this.latestLocation = await this.getLatestLocation(user.uid);
+          console.log('Datos antes de enviar la emergencia:', {
+            pictureUrl: this.latestImage,
+            videoUrl: this.latestVideo,
+            audioUrl: this.latestAudio,
+            locationLink: this.latestLocation,
+            mensaje: this.latestMessage,
+            userName: user.email,
+          });
+          // Ahora tienes los últimos elementos, puedes guardarlos en la nueva colección 'emergencia'
+          await this.firestore.collection('emergencias').add({
+            uid: user.uid,
+            latestVideo:this.latestVideo,
+            latestAudio:this.latestAudio,
+            latestImage:this.latestImage,
+            latestMessage:this.latestMessage,
+            latestLocation:this.latestLocation,
+            userName: user.email,
+            timestamp: new Date().toLocaleString(),
+          });
+    
+          console.log('Datos de emergencia guardados correctamente.');
+        } catch (error) {
+          console.error('Error al guardar datos de emergencia:', error);
+        }
+      }else{
+        console.error('Usuario no autenticado. No se puede obtener el ID');
+        return;
+      }
+    });
+  }
+
+  async getLatestMedia(userId: string, mediaType: string): Promise<string | null> {
+    return new Promise((resolve, reject) => {
+      let fileExtension:any;
+  
+      switch (mediaType) {
+        case 'videos':
+          fileExtension = '.mp4';
+          break;
+        case 'audio':
+          fileExtension = '.wav';
+          break;
+        case 'img':
+          fileExtension = '.jpg';
+          break;
+        default:
+          console.error(`Tipo de medio no soportado: ${mediaType}`);
+          resolve(null);
+      }
+  
+      const storageRef = this.estorage.ref(`${mediaType}/${userId}`);
+    
+      try {
+        let allMediaRefs = storageRef.listAll();
+        allMediaRefs.subscribe(result => {
+          let mediaFiles = result.items.filter((item: any) => item.name.endsWith(fileExtension));
+          
+          if (mediaFiles.length === 0) {
+            console.log(`No se encontraron archivos ${mediaType} para el usuario ${userId}`);
+            resolve(null);
+          }
+          
+          let latestMediaFile = mediaFiles[mediaFiles.length - 1];
+          latestMediaFile.getDownloadURL().then(url => {
+            console.log(`La URL del último archivo ${mediaType} es ${url}`);
+            resolve(url);
+          }).catch(error => {
+            console.error(`Error al obtener la URL de descarga del último archivo ${mediaType}:`, error);
+            reject(error);
+          });
+        }, error => {
+          console.error(`Error al listar todos los archivos ${mediaType}:`, error);
+          reject(error);
+        });
+      } catch (error) {
+        console.error(`Error al obtener los archivos ${mediaType}:`, error);
+        reject(error);
+      }
+    });
+  }
+
+  async getLatestMessage(userEmail: string) {
+    try {
+      const querySnapshot = await this.firestore.collection('messages', ref => ref.where('from', '==', userEmail)
+        .orderBy('createdAt', 'desc').limit(1)).get().toPromise();
+  
+      if (querySnapshot && !querySnapshot.empty) {
+        return querySnapshot.docs[0].data();
+      } else {
+        console.error('La consulta no retornó ningún resultado.');
+        return null;
+      }
+    } catch (error) {
+      console.log(error)
+      console.error('Error al obtener el último mensaje:', error);
+      return null;
+    }
+  }
+
+
+  async getLatestLocation(userId: string) {
+    try {
+      const collectionRef = this.firestore.collection(`ubicaciones/${userId}/user_locations`).ref;
+      const querySnapshot = await collectionRef.orderBy('timestamp', 'desc').limit(1).get();
+  
+      return querySnapshot.empty ? null : querySnapshot.docs[0].data();
+    } catch (error) {
+      console.error('Error al obtener la última ubicación:', error);
+      return null;
+    }
   }
 }
